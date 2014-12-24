@@ -45,10 +45,9 @@ def parseReport(reportText)
     @majorGPAIconClass = 'glyphicon glyphicon-remove'
   end
 
-  # Get general requirement status
+  # Get general and sub requirement status
   @genRequirementsArray = getGeneralRequirements(reportText)
-  puts "GADAWD"
-  puts @genRequirementsArray.inspect
+  @subRequirementsArray = getSubRequirements(reportText)
 end
 
 ##
@@ -140,3 +139,28 @@ def getGeneralRequirements(reportText)
   end
   return genRequirementsArray
 end
+
+##
+#   Method: getSubRequirements
+#   Params: reportText - the DARS report
+#   Returns: subRequirementArray - an array of prepared HTML
+def getSubRequirements(reportText)
+  subRequirementsArray = Array.new()
+  subRequirements = reportText.scan(/(\+|\-) *\d{1,2}\)(.*)/)
+
+  subRequirements.each do |req|
+  puts req[0].inspect
+    if req[0] == '+'
+      rectClasses = 'dataRect alert alert-success';
+      iconClass   = 'glyphicon glyphicon-ok';
+      tipMsg      = 'Requirement Completed!';
+    else
+      rectClasses = 'dataRect alert alert-danger';
+      iconClass   = 'glyphicon glyphicon-remove';
+      tipMsg      = 'Requirement Not Completed';
+    end
+    subRequirementsArray << "<div class='#{rectClasses}' title='#{tipMsg}'> #{req[1].to_s.strip} <span class='#{iconClass} statusIcon'></span></div>"
+  end
+  return subRequirementsArray
+end
+

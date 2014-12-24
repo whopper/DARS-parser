@@ -61,13 +61,23 @@
 
     <div id='genReqColumn' class='col-md-4'>
       <h4>General Requirements</h4>
-      <% @genRequirementsArray.each do |req| %>
+      <% if @genRequirementsArray != nil
+           @genRequirementsArray.each do |req|
+       %>
         <%= req %>
-      <% end %>
+      <%   end
+        end
+      %>
     </div>
 
     <div id='subReqColumn' class='col-md-4'>
       <h4>Sub-Requirements</h4>
+      <% if @subRequirementsArray != nil
+           @subRequirementsArray.each do |req| %>
+        <%= req %>
+      <%   end
+         end
+      %>
     </div>
   </div>
   <script>
