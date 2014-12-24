@@ -66,16 +66,29 @@ def getCredits(reportText)
   upperDivEarnedCredits     = reportText.match(upperDivEarnedCredits)
   upperDivInProgressCredits = reportText.match(upperDivInProgressCredits)
 
+  totalEarnedCredits = 0 if totalEarnedCredits == nil
+  totalInProgressCredits = 0 if totalInProgressCredits == nil
+  upperDivEarnedCredits = 0 if upperDivEarnedCredits == nil
+  upperDivInProgressCredits = 0 if upperDivInProgressCredits == nil
+
   # Needed credits section. This is needed due to DARS formatting
   neededCreditArray = Array.new()
   neededCreditArray = reportText.scan(neededCredits)
-  if neededCreditArray == nil
+  puts "SCAN"
+  puts neededCreditArray.inspect
+  if neededCreditArray == [[nil]]
     neededCreditArray = ['0.00', '0.00']
   elsif neededCreditArray[0] == [nil]
     neededCreditArray[0] = '0.00'
   elsif neededCreditArray.length == 1
-    neededCreditArray[1] = '0.00'
+    puts "AWAWDAWDAWDAWDW"
+    neededCreditArray << ['0.00']
+    puts neededCreditArray
   end
+
+  puts "!#!@#!@#@!#!@#@!"
+  puts neededCreditArray.length
+  puts neededCreditArray.inspect
 
   creditSummary[:totalEarned]        = totalEarnedCredits[1]
   creditSummary[:totalInProgress]    = totalInProgressCredits[1]
