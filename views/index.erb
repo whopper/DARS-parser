@@ -6,79 +6,17 @@
 
 <div id='reportInputContainer' class='row'>
   <div id='reportFileContainer' class='col-md-6 col-md-offset-3'>
-    <textarea id='reportInput' rows='5' cols='100'></textarea>
-    <p class='help-block'>Run a DARS report and click <b>Save printer friendly version.</b> Then, simply paste the full text here!</p>
-    <button id='submitBtn' type='submit' class='btn btn-primary' onClick='parseReport();'>Parse!</button>
-    <button id='privacyBtn' class='btn btn-info' data-toggle='modal' data-target='#privacyModal'>Privacy & Disclaimer</button>
+
+    <form action='/' method='post'>
+      <textarea id='reportInput' name='content' rows='5' cols='100'></textarea>
+      <p class='help-block'>Run a DARS report and click <b>Save printer friendly version.</b> Then, simply paste the full text here!</p>
+      <button id='submitBtn' type='submit' class='btn btn-primary'>Parse!</button>
+      <button id='privacyBtn' class='btn btn-info' data-toggle='modal' data-target='#privacyModal'>Privacy & Disclaimer</button>
+    </form>
+
   </div>
 </div>
 
 <hr class='DARSdivider'>
-<div id='reportContainer'>
-  <div class='row'>
-    <div id='creditColumn' class='col-md-4'>
-      <div class='col-md-11 col-md-offset-1'>
-        <h4>Credits and GPA</h4>
-        <table class='table'>
-          <tr>
-            <th>Overall</th>
-            <th>Credits</th>
-          </tr>
-          <tr>
-            <td class='leftColCell'><b>Earned</b></td>
-            <td id='credTotalEarnedCell'></td>
-          </tr>
-          <tr>
-            <td class='leftColCell'><b>In Progress</b></td>
-            <td id='credTotalInProgCell'></td>
-          </tr>
-          <tr>
-            <td class='leftColCell'><b>Needed</b></td>
-            <td id='credTotalNeededCell'></td>
-          </tr>
-        </table><br>
-        <table class='table'>
-          <tr>
-            <th>Upper Division</th>
-            <th>Credits</th>
-          </tr>
-          <tr>
-            <td class='leftColCell'><b>Earned</b></td>
-            <td id='credUpEarnedCell'></td>
-          </tr>
-          <tr>
-            <td class='leftColCell'><b>In Progress</b></td>
-            <td id='credUpInProgCell'></td>
-          </tr>
-          <tr>
-            <td class='leftColCell'><b>Needed</b></td>
-            <td id='credUpNeededCell'></td>
-          </tr>
-        </table>
-        <table class='table'>
-          <tr>
-            <th>GPA</th>
-            <th></th>
-          </tr>
-          <tr>
-            <td class='leftColCell'><b>Cumulative</b></td>
-            <td id='cumuGpaCell' title='Minimum Cumulative GPA: 2.00'></td>
-          </tr>
-          <tr>
-            <td class='leftColCell'><b>Major</b></td>
-            <td id='majorGpaCell' title='Minimum Major GPA: 2.00'></td>
-        </table>
-      </div>
-    </div>
-
-    <div id='genReqColumn' class='col-md-4'>
-      <h4>General Requirements</h4>
-    </div>
-
-    <div id='subReqColumn' class='col-md-4'>
-      <h4>Sub-Requirements</h4>
-    </div>
-  </div>
-</div>
-
+<%= erb :mainReport %>
 <%= erb :privacyModal %>

@@ -1,0 +1,66 @@
+<div id='reportContainer'>
+  <div class='row'>
+    <div id='creditColumn' class='col-md-4'>
+      <div class='col-md-11 col-md-offset-1'>
+        <h4>Credits and GPA</h4>
+        <table class='table'>
+          <tr>
+            <th>Overall</th>
+            <th>Credits</th>
+          </tr>
+          <tr>
+            <td class='leftColCell'><b>Earned</b></td>
+            <td id='credTotalEarnedCell'><b><%= @totalEarnedCredits %></b></td>
+          </tr>
+          <tr>
+            <td class='leftColCell'><b>In Progress</b></td>
+            <td id='credTotalInProgCell'><b><%= @totalInProgressCredits %></b></td>
+          </tr>
+          <tr>
+            <td class='leftColCell'><b>Needed</b></td>
+            <td id='credTotalNeededCell'><b><%= @totalNeededCredits %></b></td>
+          </tr>
+        </table><br>
+        <table class='table'>
+          <tr>
+            <th>Upper Division</th>
+            <th>Credits</th>
+          </tr>
+          <tr>
+            <td class='leftColCell'><b>Earned</b></td>
+            <td id='credUpEarnedCell'><b><%= @upperDivEarnedCredits %></b></td>
+          </tr>
+          <tr>
+            <td class='leftColCell'><b>In Progress</b></td>
+            <td id='credUpInProgCell'><b><%= @upperDivInProgressCredits%></b></td>
+          </tr>
+          <tr>
+            <td class='leftColCell'><b>Needed</b></td>
+            <td id='credUpNeededCell'><b><%= @upperDivNeededCredits%></b></td>
+          </tr>
+        </table>
+        <table class='table'>
+          <tr>
+            <th>GPA</th>
+            <th></th>
+          </tr>
+          <tr>
+            <td class='leftColCell'><b>Cumulative</b></td>
+            <td id='cumuGpaCell' title='Minimum Cumulative GPA: 2.00'></td>
+          </tr>
+          <tr>
+            <td class='leftColCell'><b>Major</b></td>
+            <td id='majorGpaCell' title='Minimum Major GPA: 2.00'></td>
+        </table>
+      </div>
+    </div>
+
+    <div id='genReqColumn' class='col-md-4'>
+      <h4>General Requirements</h4>
+    </div>
+
+    <div id='subReqColumn' class='col-md-4'>
+      <h4>Sub-Requirements</h4>
+    </div>
+  </div>
+</div>
