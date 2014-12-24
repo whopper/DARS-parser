@@ -61,10 +61,26 @@
 
     <div id='genReqColumn' class='col-md-4'>
       <h4>General Requirements</h4>
+      <% @genRequirementsArray.each do |req| %>
+        <%= req %>
+      <% end %>
     </div>
 
     <div id='subReqColumn' class='col-md-4'>
       <h4>Sub-Requirements</h4>
     </div>
   </div>
+  <script>
+    enableTooltips();
+  </script>
 </div>
+
+<script>
+  function enableTooltips() {
+    $('[title]').qtip({
+      style: { classes: 'qtip-light tooltip' },
+      position: { my: 'top right', at: 'top left' },
+      content: { title: 'Status' }
+    });
+  }
+</script>

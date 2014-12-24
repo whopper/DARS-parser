@@ -9,7 +9,6 @@ post '/' do
   erb :index
 end
 
-
 ##
 #   Method: parseReport
 #   Params: reportText - the DARS report
@@ -45,6 +44,11 @@ def parseReport(reportText)
     @majorGPAStatus = 'color: red'
     @majorGPAIconClass = 'glyphicon glyphicon-remove'
   end
+
+  # Get general requirement status
+  @genRequirementsArray = getGeneralRequirements(reportText)
+  puts "GADAWD"
+  puts @genRequirementsArray.inspect
 end
 
 ##
@@ -74,21 +78,13 @@ def getCredits(reportText)
   # Needed credits section. This is needed due to DARS formatting
   neededCreditArray = Array.new()
   neededCreditArray = reportText.scan(neededCredits)
-  puts "SCAN"
-  puts neededCreditArray.inspect
   if neededCreditArray == [[nil]]
     neededCreditArray = ['0.00', '0.00']
   elsif neededCreditArray[0] == [nil]
     neededCreditArray[0] = '0.00'
   elsif neededCreditArray.length == 1
-    puts "AWAWDAWDAWDAWDW"
     neededCreditArray << ['0.00']
-    puts neededCreditArray
   end
-
-  puts "!#!@#!@#@!#!@#@!"
-  puts neededCreditArray.length
-  puts neededCreditArray.inspect
 
   creditSummary[:totalEarned]        = totalEarnedCredits[1]
   creditSummary[:totalInProgress]    = totalInProgressCredits[1]
@@ -117,4 +113,30 @@ def getGPA(reportText)
   gpaSummary[:cumulativeGPA] = gpaArray[0][0]
   gpaSummary[:majorGPA]      = gpaArray[1][0]
   return gpaSummary
+end
+
+##
+#   Method: getGeneralRequirements
+#   Params: reportText - the DARS report
+#   Returns: genRequirementArray - an array of prepared HTML
+def getGeneralRequirements(reportText)
+  genRequirementsArray = Array.new()
+  mainRequirements = reportText.scan(/(NO  |OK  |IP  )(?!=)(.*)/)
+  mainRequirements.each do |req|
+    if req[0] == 'OK  '
+      rectClasses = 'dataRect alert alert-success';
+      iconClass   = 'glyphicon glyphicon-ok';
+      tipMsg      = 'Requirement Completed!';
+    elsif req[0] == 'IP  '
+      rectClasses = 'dataRect alert alert-warning';
+      iconClass   = 'glyphicon glyphicon-refresh';
+      tipMsg      = 'Requirement In Progress';
+    elsif req[0] == 'NO  '
+      rectClasses = 'dataRect alert alert-danger';
+      iconClass   = 'glyphicon glyphicon-remove';
+      tipMsg      = 'Requirement Not Completed';
+    end
+    genRequirementsArray << "<div class='#{rectClasses}' title='#{tipMsg}'> #{req[1].to_s.strip} <span class='#{iconClass} statusIcon'></span></div>"
+  end
+  return genRequirementsArray
 end
