@@ -32,11 +32,11 @@
           </tr>
           <tr>
             <td class='leftColCell'><b>In Progress</b></td>
-            <td id='credUpInProgCell'><b><%= @upperDivInProgressCredits%></b></td>
+            <td id='credUpInProgCell'><b><%= @upperDivInProgressCredits %></b></td>
           </tr>
           <tr>
             <td class='leftColCell'><b>Needed</b></td>
-            <td id='credUpNeededCell'><b><%= @upperDivNeededCredits%></b></td>
+            <td id='credUpNeededCell'><b><%= @upperDivNeededCredits %></b></td>
           </tr>
         </table>
         <table class='table'>
@@ -46,11 +46,15 @@
           </tr>
           <tr>
             <td class='leftColCell'><b>Cumulative</b></td>
-            <td id='cumuGpaCell' title='Minimum Cumulative GPA: 2.00'></td>
+            <td id='cumuGpaCell' title='Minimum Cumulative GPA: 2.00' style='<%= @cumulativeGPAStatus %>'>
+              <b><%= @cumulativeGPA %></b><span class='<%= @cumulativeGPAIconClass %> statusIcon'></span>
+            </td>
           </tr>
           <tr>
             <td class='leftColCell'><b>Major</b></td>
-            <td id='majorGpaCell' title='Minimum Major GPA: 2.00'></td>
+            <td id='majorGpaCell' title='Minimum Major GPA: 2.00' style='<%= @majorGPAStatus %>'>
+              <b><%= @majorGPA %></b><span class='<%= @majorGPAIconClass%> statusIcon'</span>
+            </td>
         </table>
       </div>
     </div>
