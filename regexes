@@ -1,0 +1,113 @@
+1: Total credit hour / GPA requirements
+
+# Overall (Returns YES or NO)
+  (NO|OK|IP).*Student must complete a minimum of \d* credit hours
+
+# Total earned credits (returns number)
+    EARNED:? {0,2}?(\d{1,3}\.\d{2}) CREDITS
+
+# In progress credits (returns number)
+    IN-PROGRESS:? {0,2}?(\d{1,3}\.\d{2}) CREDITS
+
+# Needed credits (returns number)
+    --> NEEDS:? {0,3}?(\d{1,3}\.\d{2}) CREDITS
+
+
+# Upper division credits
+  a. earned (returns number)
+      \( *\d{1,3}\.\d{2} HOURS TAKEN *\) [1]
+
+  b. In progress (returns number)
+      In-Prog-> *(\d{1,3}.\d{2}) CREDITS [1]
+
+  c. Needed (returns number)
+      NEEDS: *(\d{1,3}.\d{2}) CREDITS [2]
+
+
+# cumulative GPA (returns number)
+      (\d\.\d{2}) GPA [1]
+
+# Major GPA (returns number)
+      (\d\.\d{2}) GPA [2]
+
+
+
+
+2. PSU Residence Credit Requirements and Pass / No pass Limits
+
+# Status (returns NO, OK, or IP)
+      (NO|OK|IP) *PSU RESIDENCE CREDIT REQUIREMENTS
+
+# 45 of last 60 credits taken at PSU (returns '+' or '-')
+      (.) *1\) 45 of last 60 credits must be taken at PSU
+
+
+# 25 of last 45 credits must be for grade (returns '+' or '-')
+      (.) *2\) 25 of the last 45 credits must be for grade
+
+
+
+3. University writing requirement
+
+# status (Returns NO, OK or IP)
+      (NO|OK|IP) *Writing Requirement
+
+# one lower division writing course (returns + or -)
+      (.) *1\) One lower division Writing course
+
+# Additional writing course (returns + or -)
+      (.) *2\) Additional Writing Course
+
+
+
+4. Bachelor of science requirements
+
+# Status (returns NO, OK, or IP)
+      (NO|OK|IP) *Bachelor of Science Requirements
+
+
+
+5. University Studies requirements
+
+  a. Complete COMM 220 or Freshman Inqury (returns + or -)
+      (.)  7\) Complete COMM 220 or Freshman Inquiry
+
+  b. Sophomore inquiry (returns NO, OK, or IP)
+      (NO|OK|IP) *UNIVERSITY STUDIES - Sophomore Inquiry Completed
+
+  c. Junior Cluster (returns NO, OK, or IP)
+      (NO|OK|IP) *UNIVERSITY STUDIES - Upper Division Cluster Completed
+
+
+6. Computer Science major requirements
+
+# status (Returns NO, OK or IP)
+      (NO|OK|IP) *COMPUTER SCIENCE MAJOR REQUIREMENTS
+
+# Science electives (returns + or -)
+      (.) *1\) Science electives complete --
+
+# Complete WR 227 (returns + or -)
+      (.) *3\) Complete WR 227--
+
+# Required MTH/STAT (returns + or -)
+      (.) *5\) Complete the following MTH\/STAT courses --
+
+# MTH electives (returns + or -)
+      (.) *6\) Choose 7 credits of approved MTH electives from the
+
+# Required lower division CS (returns + or -)
+      (.) *8\) Complete the following required lower division
+
+# Required upper divison CS (returns + or -)
+      (.) *9\) Complete the following required upper division
+
+# Complete CS 305 (Returns + or -)
+      (.) *10\) Complete CS 305 Social, Ethical, and Legal Implications
+
+# Upper division CS electives (returns + or -)
+      (.) *11\) Complete 12 credits of upper division CS electives --
+
+# Complete ECE 341 (returns + or -)
+      (.) *13\) Complete ECE 341 --
+
