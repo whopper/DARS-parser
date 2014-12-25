@@ -48,6 +48,7 @@ def parseReport(reportText)
   # Get general and sub requirement status
   @genRequirementsArray = getGeneralRequirements(reportText)
   @subRequirementsArray = getSubRequirements(reportText)
+  @verboseSectionsArray = getVerboseSections(reportText)
 end
 
 ##
@@ -123,19 +124,19 @@ def getGeneralRequirements(reportText)
   mainRequirements = reportText.scan(/(NO  |OK  |IP  )(?!=)(.*)/)
   mainRequirements.each do |req|
     if req[0] == 'OK  '
-      rectClasses = 'dataRect alert alert-success';
-      iconClass   = 'glyphicon glyphicon-ok';
-      tipMsg      = 'Requirement Completed!';
+      rectClasses = 'dataRect alert alert-success'
+      iconClass   = 'glyphicon glyphicon-ok'
+      tipMsg      = 'Requirement Completed!'
     elsif req[0] == 'IP  '
-      rectClasses = 'dataRect alert alert-warning';
-      iconClass   = 'glyphicon glyphicon-refresh';
-      tipMsg      = 'Requirement In Progress';
+      rectClasses = 'dataRect alert alert-warning'
+      iconClass   = 'glyphicon glyphicon-refresh'
+      tipMsg      = 'Requirement In Progress'
     elsif req[0] == 'NO  '
-      rectClasses = 'dataRect alert alert-danger';
-      iconClass   = 'glyphicon glyphicon-remove';
-      tipMsg      = 'Requirement Not Completed';
+      rectClasses = 'dataRect alert alert-danger'
+      iconClass   = 'glyphicon glyphicon-remove'
+      tipMsg      = 'Requirement Not Completed'
     end
-    genRequirementsArray << "<div class='#{rectClasses}' title='#{tipMsg}'> #{req[1].to_s.strip} <span class='#{iconClass} statusIcon'></span></div>"
+    genRequirementsArray << "<div class='#{rectClasses}' title='#{tipMsg}' onclick=\"window.location.hash='#{req[1][0..30].gsub(/\s+/,"")}'; \"'> #{req[1].to_s.strip} <span class='#{iconClass} statusIcon'></span></div>"
   end
   return genRequirementsArray
 end
@@ -164,3 +165,23 @@ def getSubRequirements(reportText)
   return subRequirementsArray
 end
 
+def getVerboseSections(reportText)
+  reportArray = Array.new()
+  sectionArray = reportText.scan(/(NO  |OK  |IP  )([^=]+)(?!={66})/)
+  sectionArray.each do |section|
+    if section[0] =~ /NO/
+      classes   = 'callout callout-danger'
+      iconClass = 'glyphicon glyphicon-remove'
+    elsif section[0] =~ /OK/
+      classes   = 'callout callout-success'
+      iconClass = 'glyphicon glyphicon-ok'
+    else
+      classes   = 'callout callout-warning'
+      iconClass = 'glyphicon glyphicon-refresh'
+    end
+    puts section[1][0..20].gsub(/\s+/, "")
+    reportArray << "<div class='#{classes}' id='#{section[1][0..30].gsub(/\s+/, "")}'><pre>#{section[1].to_s}</pre> <span class='#{iconClass} statusIcon'></span></div>"
+  end
+
+  return reportArray
+end
