@@ -8,5 +8,4 @@ The parser is up and running at http://willhopper.com:4567
 
 ## Usage
 
-To visualize your DARS report, run a report and click 'Save printer friendly version'. Then, simply paste the full text
-into the DARS parser!
+To visualize your DARS report, run a report and click **Save printer friendly version**. Then, simply paste the full text into the DARS parser!
