@@ -195,43 +195,41 @@ In addition, notice the **_@return_** tag, which should always be included to do
 
 Documentation can be added to functions using the Puppet 4.x API by adding a docstring before the **_create_function_** call and any **_dispatch_** calls:
 
-
     # Subtracts two things.
     Puppet::Functions.create_function(:subtract) do
-  # Subtracts two integers.
-  # @param x The first integer.
-  # @param y The second integer.
-  # @return [Integer] Returns x - y.
-  # @example Subtracting two integers.
-  #   subtract(5, 1) => 4
-  dispatch :subtract_ints do
-    param 'Integer', :x
-    param 'Integer', :y
-  end
+        # Subtracts two integers.
+        # @param x The first integer.
+        # @param y The second integer.
+        # @return [Integer] Returns x - y.
+        # @example Subtracting two integers.
+        #   subtract(5, 1) => 4
+        dispatch :subtract_ints do
+          param 'Integer', :x
+          param 'Integer', :y
+        end
 
 
-  # Subtracts two arrays.
-  # @param x The first array.
-  # @param y The second array.
-  # @return [Array] Returns x - y.
-  # @example Subtracting two arrays.
-  #   subtract([3, 2, 1], [1]) => [3, 2]
-  dispatch :subtract_arrays do
-    param 'Array', :x
-    param 'Array', :y
-  end
+        # Subtracts two arrays.
+        # @param x The first array.
+        # @param y The second array.
+        # @return [Array] Returns x - y.
+        # @example Subtracting two arrays.
+        #   subtract([3, 2, 1], [1]) => [3, 2]
+        dispatch :subtract_arrays do
+          param 'Array', :x
+          param 'Array', :y
+        end
 
 
-  def subtract_ints(x, y)
-    x - y
-  end
+        def subtract_ints(x, y)
+          x - y
+        end
 
 
-  def subtract_arrays(x, y)
-    x - y
-  end
-end
-
+         def subtract_arrays(x, y)
+          x - y
+        end
+    end
 
 The first comment before the call to **_create_function_**, “subtracts two things”, acts as the top-level docstring for the entire function. This provides a general description for the function as a whole.
 
@@ -251,20 +249,20 @@ For more information on the Puppet 4.x function API, see https://github.com/pupp
 ##### 3.x functions are documented differently:
 
 
-Puppet::Parser::Functions::newfunction(
-  :raise,
-  :type => :statement,
-  :arity => 1,
-  :doc => <<-DOC
-Raises a `Puppet::Error` exception.
-@param [String, Integer] message The exception message.
-@return [Undef]
-@example Raise an exception.
-  raise('nope')
-DOC
-) do |args|
-  raise Puppet::Error, args[0]
-end
+    Puppet::Parser::Functions::newfunction(
+      :raise,
+      :type => :statement,
+      :arity => 1,
+      :doc => <<-DOC
+    Raises a `Puppet::Error` exception.
+    @param [String, Integer] message The exception message.
+    @return [Undef]
+    @example Raise an exception.
+      raise('nope')
+    DOC
+    ) do |args|
+      raise Puppet::Error, args[0]
+    end
 
 
 The YARD docstring must be written inside of a heredoc within the **_:doc_** parameter of the **_Puppet::Parser::Functions::newfunction_** call. While clunkier in this respect, the documentation markup syntax is otherwise the same. 3.x functions do not have dispatches or allow multiple overloads, so there will only be one set of parameters and one return type.
@@ -283,45 +281,43 @@ This will run Strings against all files ending with the **_.rb_** extension anyw
 
 The last two Puppet constructs we’ll document are types and providers. These are fairly easy to document as Strings automatically detects most of the important bits. We’ll start with a simple resource type:
 
-
-# @!puppet.type.param [value1, value2, value3] my_param Documentation for a dynamic parameter.
-# @!puppet.type.property [foo, bar, baz] my_prop Documentation for a dynamic property.
-Puppet::Type.newtype(:database) do
-  desc <<-DESC
-An example resource type.
-@example Using the type.
-    Example { foo:
-        Param => ‘hi’
-    }
-DESC
-
-
-  feature :encryption, 'The provider supports encryption.', methods: [:encrypt]
-  newparam(:address) do
-    isnamevar
-    desc 'The database server name.'
-  end
+    # @!puppet.type.param [value1, value2, value3] my_param Documentation for a dynamic parameter.
+    # @!puppet.type.property [foo, bar, baz] my_prop Documentation for a dynamic property.
+    Puppet::Type.newtype(:database) do
+      desc <<-DESC
+    An example resource type.
+    @example Using the type.
+        Example { foo:
+            Param => ‘hi’
+        }
+    DESC
 
 
-  newproperty(:file) do
-    desc 'The database file to use.'
-  end
+      feature :encryption, 'The provider supports encryption.', methods: [:encrypt]
+      newparam(:address) do
+        isnamevar
+        desc 'The database server name.'
+      end
 
 
-  newproperty(:log_level) do
-    desc 'The log level to use.'
-    newvalue(:debug)
-    newvalue(:warn)
-    newvalue(:error)
-  end
-end
+      newproperty(:file) do
+        desc 'The database file to use.'
+      end
 
+
+      newproperty(:log_level) do
+        desc 'The log level to use.'
+        newvalue(:debug)
+        newvalue(:warn)
+        newvalue(:error)
+      end
+    end
 
 Perhaps the most interesting bits here are the first comments before the call to newtype:
 
 
-# @!puppet.type.param [value1, value2, value3] my_param Documentation for a dynamic parameter.
-# @!puppet.type.property [foo, bar, baz] my_prop Documentation for a dynamic property.
+    # @!puppet.type.param [value1, value2, value3] my_param Documentation for a dynamic parameter.
+    # @!puppet.type.property [foo, bar, baz] my_prop Documentation for a dynamic property.
 
 
 If your resource type includes parameters or properties which are dynamically created at runtime, you must document them with the **_@!puppet.type.param_** and **_@!puppet.type.property_** directives (see the end of this post to [learn more](#learn-more). This is necessary because Strings does not evaluate Ruby code, so it cannot detect dynamic attributes.
