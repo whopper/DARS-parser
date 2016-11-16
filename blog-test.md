@@ -1,4 +1,4 @@
-Great documentation is vitally important to the quality and usability of any software, and Puppet modules are certainly no exception. While this may be a no-brainer, the real challenge lies in maintaining docs that don’t lag behind the latest release of a project. We created Puppet Strings to help module authors deal with this challenge by rendering user friendly documentation from Puppet source code. We have just released a major revision of Puppet Strings with new features and fixes for many issues reported by early users. 
+Great documentation is vitally important to the quality and usability of any software, and Puppet modules are certainly no exception. While this may be a no-brainer, the real challenge lies in maintaining docs that don’t lag behind the latest release of a project. We created Puppet Strings to help module authors deal with this challenge by rendering user friendly documentation from Puppet source code. We’ve just released a major revision of Puppet Strings with new features and fixes for many issues reported by early users. 
 
 
 Even if you don’t consider yourself a Puppet module developer, read on. Higher quality documentation through Puppet Strings is valuable to everyone in the worldwide Puppet community. An easy way to contribute back to the modules you use everyday is to add Strings content to them.
@@ -132,7 +132,7 @@ Alternatively, you can generate the same documentation as JSON. This can be usef
     bundle exec puppet strings generate ./manifests/*.pp --emit-json output.json
 
 
-This results in a file, **_output.json**_, populated with all of the parsed data organized similarly to the HTML navigation categories above:
+This results in a file, **_output.json_**, populated with all of the parsed data organized similarly to the HTML navigation categories above:
 
 
     {
@@ -148,24 +148,8 @@ This results in a file, **_output.json**_, populated with all of the parsed data
  	             “tag_name”: “example”,
  	             “text”: “include example_class”,
  	             “name”: “Declaring the class”,
-
-
-
-
                      },
- 	         {
- 	             “tag_name”: “param”,
- 	             “text”: “The first parameter for the class.”,
- 	             “types”: [
-   		      “String”
-		  ],
-		  “name”: “first”
-                     },
-                ]
-	}
-        ]
-       …
-    }
+ 	        ...
 
 
 See the Strings JSON schema for more information.
@@ -193,7 +177,8 @@ To document such a function, provide a docstring before the function definition,
 In addition, notice the **_@return_** tag, which should always be included to document what a function returns.
 
 
-Documentation can be added to functions using the Puppet 4.x API by adding a docstring before the **_create_function_** call and any **_dispatch_** calls:
+Documentation can be added to functions using the Puppet 4.x API by adding a docstring before the **_create_function_** call and any **_dispatch_** calls (see the end of this post to [learn more](#learn-more) about the Puppet 4.x API).
+
 
     # Subtracts two things.
     Puppet::Functions.create_function(:subtract) do
@@ -231,6 +216,7 @@ Documentation can be added to functions using the Puppet 4.x API by adding a doc
         end
     end
 
+
 The first comment before the call to **_create_function_**, “subtracts two things”, acts as the top-level docstring for the entire function. This provides a general description for the function as a whole.
 
 
@@ -243,25 +229,24 @@ Note that Strings automatically uses the parameter and return type information f
 Each overload can include text to describe its purpose, as shown in the example above with “subtracts two integers” and “subtracts two arrays”.
 
 
-For more information on the Puppet 4.x function API, see https://github.com/puppetlabs/puppet-specifications/blob/master/language/func-api.md#defining-a-typed-dispatch
 
 
 ##### 3.x functions are documented differently:
 
 
     Puppet::Parser::Functions::newfunction(
-      :raise,
-      :type => :statement,
-      :arity => 1,
-      :doc => <<-DOC
-    Raises a `Puppet::Error` exception.
-    @param [String, Integer] message The exception message.
-    @return [Undef]
-    @example Raise an exception.
-      raise('nope')
-    DOC
-    ) do |args|
-      raise Puppet::Error, args[0]
+        :raise,
+        :type => :statement,
+        :arity => 1,
+        :doc => <<-DOC
+        Raises a `Puppet::Error` exception.
+        @param [String, Integer] message The exception message.
+        @return [Undef]
+        @example Raise an exception.
+        raise('nope')
+        DOC
+        ) do |args|
+        raise Puppet::Error, args[0]
     end
 
 
@@ -281,6 +266,7 @@ This will run Strings against all files ending with the **_.rb_** extension anyw
 
 The last two Puppet constructs we’ll document are types and providers. These are fairly easy to document as Strings automatically detects most of the important bits. We’ll start with a simple resource type:
 
+
     # @!puppet.type.param [value1, value2, value3] my_param Documentation for a dynamic parameter.
     # @!puppet.type.property [foo, bar, baz] my_prop Documentation for a dynamic property.
     Puppet::Type.newtype(:database) do
@@ -297,7 +283,7 @@ The last two Puppet constructs we’ll document are types and providers. These a
       newparam(:address) do
         isnamevar
         desc 'The database server name.'
-      end
+      End
 
 
       newproperty(:file) do
@@ -312,6 +298,7 @@ The last two Puppet constructs we’ll document are types and providers. These a
         newvalue(:error)
       end
     end
+
 
 Perhaps the most interesting bits here are the first comments before the call to newtype:
 
@@ -342,7 +329,7 @@ Providers are processed a similar way:
     end
 
 
-All provider methods including **_confine_**, **_defaultfor_**, and **_commands_** are automatically parsed and documented by Strings. The **_desc_** method is used to generate the docstring and can include tags such as **_@example_** if written as a heredoc.
+All provider method calls including **_confine_**, **_defaultfor_**, and **_commands_** are automatically parsed and documented by Strings. The **_desc_** method is used to generate the docstring and can include tags such as **_@example_** if written as a heredoc.
 
 
 ## Generating Documentation for an Entire Module
@@ -354,7 +341,7 @@ We now have a module full of manifests, functions, types, and providers. By runn
     bundle exec puppet strings generate ./**/*(.pp|.rb)
 
 
-This results in a browsable **__index.html file_** in the **_docs_** directory which can be navigated to view each of the files which we’ve just documented. Hurray!
+This results in a browsable _index.html file in the **_docs_** directory which can be navigated to view each of the files which we’ve just documented. Hurray!
 
 
 Of course, the **_--emit-json <FILE>_** or **_--emit-json-stdout_** options could also be used to produce JSON rather than HTML. In either case, with these simple steps and minimal code changes, we’ve fully documented our module! 
@@ -372,5 +359,6 @@ For more in-depth information about puppet-strings, check out the [readme](https
 ## Learn more
 
 
-* In-depth information about puppet-strings in the [readme](https://github.com/puppetlabs/puppet-strings/blob/master/README.md).
+* In-depth information about puppet-strings in the [readme](https://github.com/puppetlabs/puppet-strings/blob/master/README.md). 
 * YARD [getting started guide](http://www.rubydoc.info/gems/yard/file/docs/GettingStarted.md) and [tag overview](http://www.rubydoc.info/gems/yard/file/docs/Tags.md) guides for advanced users. 
+* [Puppet 4.x API Documentation](https://github.com/puppetlabs/puppet-specifications/blob/master/language/func-api.md#the-4x-api) and [dispatches in the 4.x API](https://github.com/puppetlabs/puppet-specifications/blob/master/language/func-api.md#defining-a-typed-dispatch).
