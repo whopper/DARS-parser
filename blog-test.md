@@ -231,24 +231,22 @@ Each overload can include text to describe its purpose, as shown in the example 
 
 
 
-##### 3.x functions are documented differently:
-
+#### 3.x functions are documented differently:
 
     Puppet::Parser::Functions::newfunction(
         :raise,
         :type => :statement,
         :arity => 1,
         :doc => <<-DOC
-        Raises a `Puppet::Error` exception.
-        @param [String, Integer] message The exception message.
-        @return [Undef]
-        @example Raise an exception.
+    Raises a `Puppet::Error` exception.
+    @param [String, Integer] message The exception message.
+    @return [Undef]
+    @example Raise an exception.
         raise('nope')
-        DOC
+    DOC
         ) do |args|
         raise Puppet::Error, args[0]
     end
-
 
 The YARD docstring must be written inside of a heredoc within the **_:doc_** parameter of the **_Puppet::Parser::Functions::newfunction_** call. While clunkier in this respect, the documentation markup syntax is otherwise the same. 3.x functions do not have dispatches or allow multiple overloads, so there will only be one set of parameters and one return type.
 
@@ -307,7 +305,7 @@ Perhaps the most interesting bits here are the first comments before the call to
     # @!puppet.type.property [foo, bar, baz] my_prop Documentation for a dynamic property.
 
 
-If your resource type includes parameters or properties which are dynamically created at runtime, you must document them with the **_@!puppet.type.param_** and **_@!puppet.type.property_** directives (see the end of this post to [learn more](#learn-more). This is necessary because Strings does not evaluate Ruby code, so it cannot detect dynamic attributes.
+If your resource type includes parameters or properties which are dynamically created at runtime, you must document them with the **_@!puppet.type.param_** and **_@!puppet.type.property_** directives (see the end of this post to [learn more](#learn-more)). This is necessary because Strings does not evaluate Ruby code, so it cannot detect dynamic attributes.
 
 
 Apart from dynamic attributes, the only other necessary code for complete documentation are descriptions for each parameter, property, and the resource type itself. These must be passed to the **_desc_** method. Each description can include other tags as well, including examples.
@@ -341,7 +339,7 @@ We now have a module full of manifests, functions, types, and providers. By runn
     bundle exec puppet strings generate ./**/*(.pp|.rb)
 
 
-This results in a browsable _index.html file in the **_docs_** directory which can be navigated to view each of the files which we’ve just documented. Hurray!
+This results in a browsable \_index.html file in the **_docs_** directory which can be navigated to view each of the files which we’ve just documented. Hurray!
 
 
 Of course, the **_--emit-json <FILE>_** or **_--emit-json-stdout_** options could also be used to produce JSON rather than HTML. In either case, with these simple steps and minimal code changes, we’ve fully documented our module! 
@@ -350,7 +348,7 @@ Of course, the **_--emit-json <FILE>_** or **_--emit-json-stdout_** options coul
 Since the documentation is embedded with the code itself, it’s much easier to remember to update it in step with the code as it changes. No more out of date documentation! In addition, by using Strings, we’ve also gained a free way to generate aesthetically pleasing HTML documentation. Strings can even run a web server to serve your Puppet docs for you!
 
 
-For more in-depth information about puppet-strings, check out the [readme](https://github.com/puppetlabs/puppet-strings/blob/master/README.md). The YARD [getting started guide](http://www.rubydoc.info/gems/yard/file/docs/GettingStarted.md) and [tag overview](http://www.rubydoc.info/gems/yard/file/docs/Tags.md tag overview) guides are also recommended reading for advanced users. In addition, we’re working on a few more blog posts and a comprehensive style guide for the project, so stay tuned!
+For more in-depth information about puppet-strings, check out the [readme](https://github.com/puppetlabs/puppet-strings/blob/master/README.md). The YARD [getting started guide](http://www.rubydoc.info/gems/yard/file/docs/GettingStarted.md) and [tag overview](http://www.rubydoc.info/gems/yard/file/docs/Tags.md) guides are also recommended reading for advanced users. In addition, we’re working on a few more blog posts and a comprehensive style guide for the project, so stay tuned!
 
 
 *William Hopper is a software engineer at Puppet. Since 2012 he’s worked on core open-source projects like Puppet, Facter, and more recently Strings.
